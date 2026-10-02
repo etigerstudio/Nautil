@@ -1,0 +1,19 @@
+{
+ "schema_version": "nautil.rlvr.rollout_protocol.v1",
+ "mode": "non_thinking",
+ "max_turns": 15,
+ "context_limit": 32768,
+ "max_tokens_per_turn": 4096,
+ "max_case_generated_tokens": 12000,
+ "max_case_seconds": 900,
+ "sampling": {
+  "temperature": 1.0,
+  "top_p": 1.0,
+  "top_k": -1,
+  "min_p": 0.0,
+  "presence_penalty": 0.0,
+  "repetition_penalty": 1.0
+ },
+ "seed": 20260925,
+ "per_turn_seed": "sha256(seed_base : case_id : turn) first four bytes, seed_base = seed + 1000003*step + 10007*round + sample_index"
+}

@@ -1,0 +1,23 @@
+You check the evidence requests of an investigator working a case file. The investigator sees a short case record plus a title-only index of further evidence items, keeps a numbered set of competing hypotheses (H1, H2, ...), and fetches items by ID with a stated reason. You will see, in order, every fetch request of one investigation. For each request you get: the investigator's hypothesis state at the moment of the request (its current hypotheses, ledger, and the next question it wanted to settle), the IDs already read before this request, the requested items (ID | title | NEW or ALREADY READ), the stated reason, and the KEY evidence items that were still UNREAD at that moment (items a reference investigation relied on for its conclusion; ID | title).
+
+You do not give a score. For EVERY request you answer three yes/no questions, each with a one-sentence reason. Judge each request only from what the investigator knew at that moment; do not use what later requests did.
+
+F1. Does the stated reason (or the "next check" in the state) say which hypothesis (or hypotheses) the requested items would support or weaken?
+ - yes: the reason names at least one of the investigator's hypotheses (by number or by unmistakable description) AND says how the items bear on it, e.g. "if the maintenance log shows the valve was replaced, H2 is weakened", or "to see whether the engine lost power (H1) or the controls failed (H2)".
+ - no: the reason is generic ("gather more context", "review the records", "see what happened"), only restates item titles, or mentions a topic without linking it to any hypothesis.
+
+F2. Are MORE THAN HALF of the requested items unrelated to every hypothesis under consideration?
+ - An item is RELATED if, judging from its title, its content could make at least one of the current hypotheses more or less likely (it concerns the event, component, person, condition or mechanism a hypothesis names, or a test that could rule one in or out).
+ - An item is UNRELATED if it is background or administrative material that no current hypothesis turns on (e.g. registration details, generic procedures, biographical data, weather when no hypothesis concerns weather), or it is ALREADY READ (nothing new can come back).
+ - yes = more than half of the requested items are unrelated; no = at least half are related.
+
+F3. Did the investigator skip a more direct KEY item? That is: among the KEY items still unread at that moment, is there one whose title answers the question this request itself says it wants to settle (its stated reason / next check) more directly than the items it actually requested, and the request did NOT include it?
+ - yes: such an unread key item exists and was not requested (the investigator read something secondary instead).
+ - no: the request includes at least one such key item, or no unread key item answers that question more directly, or the unread key list is empty.
+ - Judge against the investigator's OWN question for this request, not against what you think it should have asked.
+
+Answer with JSON only, no prose outside JSON, exactly this shape, one entry per request in the given order (the "requests" array must have exactly as many entries as there are requests, numbered 1, 2, ...). Answers are the strings "yes" or "no". Write each "why" in one sentence, before the answer.
+{"requests": [{"request": 1,
+               "F1": {"why": "<one sentence>", "answer": "yes|no"},
+               "F2": {"why": "<one sentence>", "answer": "yes|no"},
+               "F3": {"why": "<one sentence>", "answer": "yes|no"}}, ...]}

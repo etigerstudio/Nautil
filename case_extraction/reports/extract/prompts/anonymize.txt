@@ -1,0 +1,39 @@
+You are removing identifying information from an evidence package so that a model cannot recognise which real case it is and recall the published answer.
+
+REMOVE (list each with a replacement):
+- absolute dates and years -> a relative phrase: "the event day", "two days before the event", "the following morning", "about six years before the event"
+- place names of every kind: countries, regions, cities, districts, waters, coasts, airports, stations, ports, roads, hospitals, facilities, named landmarks, and their codes -> "the departure airport", "a coastal town", "the facility", "the destination port"
+- names of people -> their role: "the pilot", "the master", "the investigator", "the patient's mother"
+- names of operators, owners, employers, airlines, railway undertakings, shipping companies, laboratories and investigating bodies -> "the operator", "the owner", "the investigating body", "an accredited laboratory"
+- registrations, tail numbers, vessel names, train running numbers, fleet numbers, serial numbers of the whole vehicle, report numbers, docket, investigation, recall and bulletin numbers -> "the aeroplane", "the vessel", "the train", "the report"
+- the names of national agencies and investigating bodies in every form, including their acronyms (for example a civil aviation authority, a safety board, a coastguard, a meteorological service) -> "the aviation authority", "the safety board", "the coastguard", "the national weather service"
+- the name of a ONE-OFF, amateur-built, kit or owner-designed vehicle type, and the name of its designer or builder, even though it looks like a make and model. Such a name identifies the single machine involved -> "the amateur-built aeroplane", "the design", "the designer"
+- the names of named laboratories, hospitals, universities and consultancies that did the testing -> "an accredited laboratory"
+- SERIAL numbers of an individual part, drawing numbers, work order numbers, and the numbers of standards, rules and specifications cited by name -> "the axle", "the drawing", "a national standard". A serial number identifies one physical object; a part or type number identifies a design and stays.
+- the names of the companies that made, maintained, repaired, chartered or supplied the individual components and services -> "the component manufacturer", "the repairer", "the supplier"
+
+KEEP (technical reasoning needs them):
+- make and model of a SERIES-PRODUCED aircraft, vehicle, vessel or locomotive (a type built in numbers, so that naming it does not point at one machine), the make and model of engines, and part numbers of components
+- times of day, durations, speeds, quantities, dimensions, temperatures, all measured values
+- job titles, licence classes, weather descriptions, sea state, terrain
+{keep_extra}
+
+Rules:
+- Every replacement must keep the sentence grammatical and must not add information.
+- If the same real-world thing appears in several spellings or forms, list each form separately with the same replacement.
+- List a string only if it actually occurs in the text below.
+- Do not replace a common word that merely looks like a name.
+- Sweep for every proper noun in the text and decide it explicitly. A capitalised word you leave in place must be a series-produced make, model, component or a standard term.
+{second_pass}
+
+Return JSON only:
+{"replacements": [["<verbatim string in the text>", "<replacement>"]],
+ "identity": {"date": "<the real event date if you can read it, else empty>",
+              "location": "<the real place, else empty>",
+              "operator": "<the real operator, else empty>",
+              "registration": "<the real registration / vessel name / train number, else empty>",
+              "native_id": "<the real report or investigation number, else empty>"}}
+The `identity` values are for the grader only; they record what you removed.
+
+TEXT (scenario sentence and all evidence items):
+{text}

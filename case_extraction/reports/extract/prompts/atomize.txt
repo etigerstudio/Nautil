@@ -1,0 +1,35 @@
+You are turning one block of an investigation record into atomic evidence items for a reasoning benchmark. A model will later be asked what caused the occurrence, seeing only these items.
+
+Split the block below into atomic evidence items. One item = one observation, measurement, statement, test result or examination conclusion from one source.
+
+Rules for `text`:
+- Stay faithful to the record. You may reword for a standalone item: supply the subject, split a compound sentence, replace a pronoun with what it refers to, normalise a unit.
+- Add nothing the record does not say. Remove no qualifier the record uses ("probably", "approximately", "about", "appeared to").
+- Do not repeat the same fact in two items.
+- An item must stand on its own as something a reader could cite in an argument. Do NOT make an item out of one field of a sentence. Facts that are always read together belong in one item: the date, time and place of the occurrence; the damage and the injuries; one witness's continuous observation; a specification and its value; a component and its condition.
+- As a guide, one item per one or two sentences of the block. A dense paragraph of six sentences usually yields three to five items, not ten.
+- Drop nothing a reader would need: aim to cover the whole block.
+{granularity}
+- Do NOT include any sentence that states or hints at the investigators' conclusion, cause, finding, diagnosis or determination. Put such sentences in `withheld_sentences` instead, with the reason.
+
+Rules for `neutral_title`: one short phrase naming what the item is about, with no conclusion word and no ordinal we invent. Use a time reference only if the record itself gives one (for example "on the day before", "hospital day 12", "at the three-week review"). Never write "first treatment", "second finding" or any numbering of our own.
+
+Rules for `kind`: exactly one of
+  observation            — something seen or found at the scene or on the object
+  measurement            — a number, reading, dimension or recorded value
+  statement              — what a person said, reported or recalled
+  test result            — the outcome of a test, laboratory analysis or trial
+  examination conclusion — an examiner's technical judgement about a local feature (for example "the fracture surface showed fatigue striations")
+
+Rules for `source`: a short description of WHERE this item comes from, chosen to group items that share an origin, for example "investigation report, factual sections", "statement of the surviving pilot", "metallurgical examination", "maintenance records", "recorded weather observation", "the manufacturer's submission". Use the same wording for every item from the same origin. {source_hint}
+
+Rules for `quote`: a verbatim substring of the block, 8 to 25 words, that this item is drawn from. Copy it exactly, including spelling and punctuation.
+
+Return JSON only:
+{"items": [{"neutral_title": "...", "text": "...", "kind": "...", "source": "...", "quote": "..."}],
+ "withheld_sentences": [{"sentence": "<verbatim>", "reason": "<why it reveals the outcome>"}]}
+
+{mixed_warning}Context: this is a {domain} record. Block label: {block_label}
+
+BLOCK:
+{block}

@@ -1,0 +1,18 @@
+Write the opening paragraph of an evidence package for a reasoning benchmark.
+
+It must say, in one to three sentences: what kind of body assembled this record and what kind of occurrence it concerns; that the analysis, findings and cause determination are withheld. Then the source table, in the exact form "Sources: S1 = ...; S2 = ...." using the descriptions given below, in order, ending with a full stop.
+
+Rules:
+- Name no place, person, operator, company, vessel, aircraft registration, date or report number. Say "an independent national transport safety board", "a national road-vehicle safety regulator's defect investigation office", "a published clinical case report".
+- Describe the occurrence at the level the first evidence items already make plain (for example "a light twin-engine aeroplane that was destroyed during a charter flight"), and no further. Do not state or hint at a cause.
+- Match the register of this example: "An independent safety investigation assembled the following factual record. Official analysis, findings, and cause determinations are withheld. Sources: S1 = investigation report, factual sections; S2 = statements of witnesses near the departure airport; S3 = autopsy reports."
+
+Return JSON only: {"initial_context": "..."}
+
+Domain: {domain}
+What the record is: {record_kind}
+First few evidence items (for the level of description only):
+{sample}
+
+Source table (use verbatim, in this order):
+{sources}

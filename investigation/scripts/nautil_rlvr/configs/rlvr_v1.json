@@ -1,0 +1,157 @@
+{
+ "run_name": "rlvr_v1",
+ "total_steps": 25,
+ "paths": {
+  "base_model": "/path/to/run/model",
+  "tokenizer": "/path/to/run/model",
+  "init_adapter": "/path/to/run/runs/sft_v2_2_epoch2/step_0273/adapter",
+  "system_prompt": "/path/to/run/eval_input/sft_investigator_v1.txt",
+  "train_bundle": "/path/to/run/rlvr_v1/data/train_bundle.jsonl",
+  "train_refs": "/path/to/run/rlvr_v1/data/train_refs.jsonl",
+  "train_teacher": "/path/to/run/rlvr_v1/data/train_model_visible.jsonl",
+  "val_bundle": "/path/to/run/eval_input/validation_prompts_and_evidence.jsonl",
+  "val_refs": "/path/to/run/rlvr_v1/data/validation_references_v2.jsonl",
+  "val_judge_refs": "/path/to/run/rlvr_v1/data/val_refs.jsonl",
+  "rollout_protocol": "/path/to/run/rlvr_v1/scripts/nautil_rlvr/configs/rl_rollout_protocol_v1.json",
+  "eval_protocol": "/path/to/run/rlvr_v1/configs/scheduler_protocol_v1.json",
+  "output_root": "/path/to/run/rlvr_v1/runs"
+ },
+ "pipeline": {
+  "mode": "sync",
+  "colocate": true,
+  "dist_backend": "nccl",
+  "sleep_level": 1
+ },
+ "policy": {
+  "device": "cuda",
+  "dtype": "bfloat16",
+  "attn_implementation": "sdpa",
+  "packing": "auto",
+  "pack_tokens": 32768,
+  "logit_chunk": 2048,
+  "lora_rank": 16,
+  "lora_alpha": 32,
+  "gradient_checkpointing": true
+ },
+ "rollout": {
+  "endpoints": [
+   "http://127.0.0.1:8200",
+   "http://127.0.0.1:8201"
+  ],
+  "concurrency": 320,
+  "lora_prefix": "rlvr",
+  "base_model_name": "qwen35-9b-base",
+  "max_attempts": 3
+ },
+ "grpo": {
+  "group_size": 8,
+  "cases_per_step": 40,
+  "min_groups": 32,
+  "max_refill_rounds": 1,
+  "straggler_done_fraction": 0.9,
+  "minibatches_per_step": 4,
+  "lr": 5e-06,
+  "warmup_steps": 0,
+  "weight_decay": 0.0,
+  "betas": [
+   0.9,
+   0.999
+  ],
+  "max_grad_norm": 1.0,
+  "clip_low": 0.2,
+  "clip_high": 0.28,
+  "kl_coef": 0.0,
+  "adv_std_normalize": true,
+  "drop_identical_groups": true,
+  "max_staleness": 1
+ },
+ "sampler": {
+  "alpha": 0.0,
+  "seed": 20260925,
+  "extra_sources": {
+   "counterfactual_pairs": {
+    "enabled": false
+   }
+  }
+ },
+ "reward": {
+  "phase": 2,
+  "judge_failure_policy": "exclude_dimension",
+  "citation_scope": "final"
+ },
+ "judges": {
+  "train": {
+   "model": "glm-5.3-flash",
+   "base_url": "https://example.com/v1",
+   "key_env": [
+    "API_KEY"
+   ],
+   "per_key_concurrency": 4,
+   "stagger_seconds": 0.01,
+   "timeout_seconds": 240,
+   "max_tokens": 16384,
+   "temperature": 0.0,
+   "response_format_json": true,
+   "retry_backoff": [
+    2,
+    5,
+    15,
+    30
+   ],
+   "format_retries": 2,
+   "group_deadline_seconds": 600,
+   "cache_dir": "/path/to/run/rlvr_v1/judge_cache/train"
+  },
+  "eval": {
+   "model": "gpt-6-sol",
+   "routes_file": "/path/to/run/configs/api_routes.json",
+   "route_names": [
+    "api"
+   ],
+   "timeout_seconds": 300,
+   "max_tokens": null,
+   "temperature": null,
+   "response_format_json": false,
+   "retry_backoff": [
+    5,
+    20,
+    60
+   ],
+   "format_retries": 2,
+   "price_input_per_m": 2.0,
+   "price_output_per_m": 10.0,
+   "cache_dir": "/path/to/run/rlvr_v1/judge_cache/eval"
+  }
+ },
+ "lora_check": {
+  "tolerance": 0.01
+ },
+ "checkpoint": {
+  "every_steps": 5,
+  "keep_recent_adapters": 3
+ },
+ "eval": {
+  "every_steps": 10,
+  "samples": 1,
+  "concurrency": 32,
+  "tokenizer": "/path/to/run/model",
+  "scheduler_scripts_dir": "/path/to/run/rlvr_v1/scripts",
+  "python": "/path/to/vllm_eval/venv/bin/python",
+  "llm_closure": true,
+  "timeout_seconds": 5400,
+  "llm_join_timeout_seconds": 1800
+ },
+ "monitor": {
+  "kl_sequences": 8,
+  "rank_sync_check_every": 5,
+  "max_judge_failure_rate": 0.05,
+  "max_judge_parse_failure_rate": 0.02,
+  "first_ratio_tolerance": 0.05
+ },
+ "logging": {
+  "tensorboard_dir": "/path/to/run/monitor/rlvr_v1",
+  "dump_every": 10,
+  "dump_count": 5,
+  "save_token_ids": false
+ }
+}

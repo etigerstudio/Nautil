@@ -1,0 +1,35 @@
+You are writing the grader's reference for one case of a reasoning benchmark. A model was given only the factual evidence listed below; you are given the investigators' own analysis and conclusion, which the model never sees.
+
+Produce:
+
+1. `determination`: "determined" if the official conclusion states a specific cause or diagnosis; "undetermined" if the official record says the cause, or a necessary part of it, could not be established. Read the conclusion's own words; an official text that says "could not be determined", "was not established", "no defect trend was identified" or "insufficient evidence" is undetermined.
+
+2. `closure_object`: one clause naming what was, or was not, established. Examples: "the ignition source of the in-flight fire"; "a total loss of engine power due to fuel starvation".
+
+3. `rejected_explanations`: every explanation that a reader might reasonably reach from the evidence and that the official analysis ARGUES AGAINST. For each:
+   - `mechanism`: the explanation itself, stated as a mechanism, not as a topic.
+   - `quote`: the sentence from the official analysis that argues against it, copied VERBATIM, exactly as written below, including punctuation. Do not paraphrase, do not join two sentences, do not fix spelling.
+   - `evidence_ids`: the ids of the evidence items below that support that rejection. Only ids that exist in the list. Empty if none of the visible evidence supports it.
+   - `note`: one sentence on why those items support the rejection.
+   Include an explanation only when the record really sets it aside. An explanation the record never mentions is not a rejection. A possibility the record keeps open is not a rejection.
+{domain_note}
+
+4. `alternatives_left_open`: explanations the official analysis considered and did NOT settle, each in one clause. For a determined case this is often empty.
+
+5. `official_conclusion_verbatim`: the conclusion text, copied verbatim from the CONCLUSION block.
+
+Return JSON only:
+{"determination": "determined|undetermined",
+ "closure_object": "...",
+ "official_conclusion_verbatim": "...",
+ "rejected_explanations": [{"mechanism": "...", "quote": "...", "evidence_ids": ["E1.3"], "note": "..."}],
+ "alternatives_left_open": ["..."]}
+
+EVIDENCE THE MODEL WILL SEE (id | title | text):
+{evidence}
+
+OFFICIAL ANALYSIS:
+{analysis}
+
+CONCLUSION:
+{conclusion}

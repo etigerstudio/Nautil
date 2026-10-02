@@ -1,0 +1,18 @@
+You are finalising the source table of an evidence package.
+
+Below are the source descriptions proposed while atomising one record, with how many evidence items carry each. Merge descriptions that mean the same origin, and write a final table.
+
+Rules:
+- Keep origins separate when a reader would weigh them differently: an eyewitness account is not the investigation's own site examination; a manufacturer's submission is not the investigator's test.
+- Merge near-duplicates ("site examination" and "examination of the wreckage at the site").
+- 3 to 7 sources is normal; never emit more than 9. Merge every laboratory, medical and specialist examination that the investigation itself commissioned into one origin unless a reader would weigh them differently.
+- Each final description is a noun phrase a reader can act on, for example "investigation report, factual sections", "statements of the two surviving crew members", "forensic metallurgical examination of the failed axle".
+- Do not name any person, company, place, vessel, aircraft registration or organisation in a description; say "the operator", "the manufacturer", "a witness" instead.
+
+Return JSON only:
+{"sources": [{"id": "S1", "description": "..."}],
+ "map": {"<proposed description verbatim>": "S1"}}
+Every proposed description below must appear as a key in `map`.
+
+Proposed descriptions:
+{proposed}

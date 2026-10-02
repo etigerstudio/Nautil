@@ -1,0 +1,5 @@
+This is one page of an investigation report whose extracted text came out garbled or lost its table layout.
+
+Transcribe the page as plain text, in reading order. Reproduce tables row by row, one row per line, with cells separated by " | " and the header row first. Keep every number exactly as printed. Do not summarise, do not explain, do not add anything that is not on the page. If part of the page is illegible, write [illegible] in its place.
+
+Return JSON only: {"text": "..."}

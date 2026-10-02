@@ -1,0 +1,14 @@
+{
+ "schema_version": "nautil.sft.routes.v1",
+ "teacher_model_identity": "gpt-6-sol",
+ "notes": "Keys are environment-variable names only, never values. Output must not be constrained by a small max_tokens cap; detect finish_reason=length and reject truncated teacher output.",
+ "routes": [
+  {
+   "name": "api",
+   "base_url": "https://example.com/v1",
+   "key_env": "API_KEY",
+   "wire_model": "gpt-6-sol",
+   "max_concurrent": 4
+  }
+ ]
+}

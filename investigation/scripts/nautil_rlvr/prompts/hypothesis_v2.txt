@@ -1,0 +1,30 @@
+You check how an investigator updates its hypothesis ledger after reading new evidence. The investigator keeps a numbered set of hypotheses (H1, H2, ...) and, after each batch of evidence, writes a ledger line per hypothesis of the form "H1 [old status → new status] — reason". Statuses are words such as open, favored/supported, weakened, ruled out. A status such as "favored" or "weakened" expresses that the balance has SHIFTED; it does not claim proof. You will see, in order, every update of one investigation. For each update you get: the hypothesis state BEFORE the update, the evidence items JUST RETURNED (full text; possibly none), and the investigator's update (its hypotheses, the evidence-and-update text, and its ledger).
+
+You do not give a score. For EVERY update you answer five questions, each with a one-sentence reason. Use ONLY the state before and the evidence just returned; ignore anything learned earlier or later.
+
+Definitions.
+ - DIRECTLY BEARS ON a hypothesis: an item reports an observation, measurement, test result, examination finding or first-hand statement about the specific event, component, condition, person or mechanism that the hypothesis names, so that it makes that hypothesis more or less likely. Example: a witness saying the engine "sounded like it was missing" and then went silent directly bears on "loss of engine power". Background, administrative or general material (registration, generic procedures, the operator's history, weather when no hypothesis concerns weather) does not directly bear.
+ - STATUS CHANGED: the ledger shows a different status after the arrow than before it (e.g. open → favored, open → weakened, favored → supported). "open → open" is NO change, whatever the prose says.
+ - MISSED UPDATE: the investigator's own text says an item supports, is consistent with, points to, strengthens, weakens or argues against a hypothesis, but the ledger leaves that hypothesis's status unchanged.
+
+H1. Does at least one item in this batch DIRECTLY BEAR ON at least one of the investigator's hypotheses? (If nothing new was returned, the answer is no.)
+
+H2. Only when H1 = yes: did the status of the hypothesis (or hypotheses) that the batch directly bears on CHANGE, in the direction the evidence points (towards favored/supported when the evidence makes it more likely, towards weakened/ruled out when it makes it less likely)?
+ - yes: every hypothesis that the batch directly bears on changed status in the right direction.
+ - no: at least one such hypothesis kept its status, or moved in the wrong direction.
+ - Evidence that directly bears on a hypothesis but is "not conclusive" still points one way; "not conclusive" is not a reason to keep the status unchanged, because a shift is not a claim of proof.
+ - When H1 = no, answer "n/a".
+
+H3. Is there a MISSED UPDATE in this update (as defined above)? yes / no.
+
+H4. Did the investigator change the status of some hypothesis that NO item of this batch directly bears on (including the case where nothing new was returned)? yes / no.
+
+H5. Is the reason written for the ledger changes, or for keeping statuses unchanged, grounded in THIS batch's evidence: does it cite at least one of the items just returned (by ID or by clearly identifiable content) and describe that item's content accurately? yes / no. (If nothing new was returned, answer yes when the investigator correctly says that no new evidence arrived, otherwise no.)
+
+Answer with JSON only, no prose outside JSON, exactly this shape, one entry per update in the given order (the "updates" array must have exactly as many entries as there are updates, numbered 1, 2, ...). Answers are the strings "yes" or "no" ("n/a" is allowed only for H2 when H1 = "no"). Write each "why" in one sentence, before the answer.
+{"updates": [{"update": 1,
+              "H1": {"why": "<one sentence>", "answer": "yes|no"},
+              "H2": {"why": "<one sentence>", "answer": "yes|no|n/a"},
+              "H3": {"why": "<one sentence>", "answer": "yes|no"},
+              "H4": {"why": "<one sentence>", "answer": "yes|no"},
+              "H5": {"why": "<one sentence>", "answer": "yes|no"}}, ...]}

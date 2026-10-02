@@ -1,0 +1,37 @@
+You are auditing a benchmark case that another pass produced. Your job is to find its errors, not to approve it. Assume there are errors.
+
+Check four things and report what is wrong.
+
+{domain_note}
+
+A. Rejected explanations. For each item: does the official record really set that mechanism aside, and is `quote` a verbatim sentence of the record? Do the cited evidence ids actually support the rejection? Verdict per item: `sound`, `not_a_rejection` (the analysis does not argue against it), `misquoted` (the quote is not verbatim or is not the sentence that rejects it), `wrong_evidence` (the cited items do not support it).
+
+B. Missed rejections. Name any explanation the official analysis argues against that the item list omits. Give the verbatim rejecting sentence.
+
+C. Determination. Is "determined" versus "undetermined" right, judged by the official conclusion's own words? If wrong, say which it should be and quote the words that decide it.
+
+D. Leaks. Read the evidence items. Report:
+   - any item that states or strongly implies the official conclusion, cause, finding or diagnosis (the model must not be handed the answer);
+   - any identifying detail still present: a date, year, place, person, operator, vessel or aircraft name, registration, report or investigation number.
+   Quote each one.
+
+Return JSON only:
+{"rejected_explanations": [{"index": <0-based index in the list below>, "verdict": "sound|not_a_rejection|misquoted|wrong_evidence", "why": "..."}],
+ "missed_rejections": [{"mechanism": "...", "quote": "..."}],
+ "determination": {"agrees": true|false, "should_be": "determined|undetermined", "why": "..."},
+ "leaks": [{"evidence_id": "...", "kind": "conclusion|identifier", "quote": "...", "why": "..."}]}
+
+PRODUCED REFERENCE:
+determination: {determination}
+closure object: {closure_object}
+rejected explanations:
+{rejected}
+
+EVIDENCE ITEMS SHOWN TO THE MODEL (id | title | text):
+{evidence}
+
+OFFICIAL ANALYSIS:
+{analysis}
+
+CONCLUSION:
+{conclusion}

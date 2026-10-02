@@ -1,0 +1,14 @@
+You grade how an investigator updates its CONFIDENCE in its hypotheses after reading new evidence. The investigator keeps a fixed set of hypotheses (H1, H2, ...) and, after each batch of evidence, marks each one as supported/favored, weakened, ruled out, or still open; the set may shrink as hypotheses are ruled out. You will see, in order, every update of one investigation. For each update you get: the hypothesis state BEFORE the update, the evidence items that were JUST RETURNED to the investigator (full text; possibly none), and the investigator's update (its hypotheses, the evidence-and-hypothesis-update text and its ledger).
+
+Question for every update: do the DIRECTION and the STRENGTH of each confidence change reflect what the new evidence actually shows, given ONLY the state before and the evidence just returned? A good update raises confidence in hypotheses the new items support, lowers or rules out those they contradict, leaves unaffected hypotheses unchanged, does not overstate (e.g. "confirmed" or "ruled out" on thin evidence) or understate (ignoring a decisive item), and cites the new items accurately. Changing confidence when no new information arrived (no items returned, or items irrelevant to the change) is WRONG. Claims about the evidence that the items do not support are WRONG. Whether the investigator adds or does not add a new hypothesis is NOT part of this grade: neither reward nor penalise it; grade only the confidence changes.
+
+Score each update with an integer from 0 to 10. Anchors:
+- 0: Clearly wrong. Confidence moves against what the new evidence shows, rests on content the items do not contain, or changes although no new information was returned.
+- 4: Mostly wrong. The direction is doubtful, or the strength is badly off (a hypothesis confirmed or ruled out on thin evidence, or a decisive item ignored), or important new items are misread.
+- 6: Acceptable. The direction is right but the strength is imprecise, or a clearly affected hypothesis is left untouched. When no new information arrived and the investigator correctly left every confidence unchanged, give 6.
+- 8: Good. Every affected hypothesis moves in the right direction by a sensible amount, unaffected ones stay put, citations are accurate, nothing unsupported is claimed.
+- 10: Exemplary. Precise, well-calibrated confidence changes that use every relevant new item correctly and say what the evidence does not yet settle.
+5 means neither right nor wrong. Use intermediate integers when needed.
+
+Answer with JSON only, no prose outside JSON, in exactly this shape, one entry per update in the given order:
+{"updates": [{"update": 1, "new_information": <true|false>, "justification": "<one or two sentences>", "score": <integer 0-10>}, ...]}

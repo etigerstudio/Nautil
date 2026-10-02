@@ -1,0 +1,27 @@
+You are preparing an investigation report for a reasoning benchmark. The benchmark shows a model only the FACTUAL record and hides everything the investigators concluded from it.
+
+Below are the blocks of one report in document order: an index, the heading or opening words, the length, and the first part of the body.
+
+Label every block with exactly one role:
+  factual        — what was observed, measured, recorded, tested or stated: the occurrence narrative, the site examination, technical and laboratory examinations and their measured outcomes, witness accounts, weather, maintenance, design and complaint records, data recordings, counts and tables.
+  mixed          — a block that states observed fact AND the investigators' reasoning about it in the same passage. Many boards write their whole technical account this way, under a heading such as "Key facts and analysis", "Investigation analysis" or "Discussion": measurements, test results and witness accounts sit next to the argument drawn from them. Prefer this label over `analysis` whenever the block clearly carries facts a reader would need.
+  analysis       — the investigators' reasoning and almost nothing else: weighing explanations, ruling possibilities in or out, attributing cause, assessing whether a defect trend exists.
+  conclusion     — stated findings, causes, contributory factors, the summary of conclusions, or the decision that closes the investigation.
+  recommendation — safety recommendations, actions taken, learning points, manufacturer actions.
+  front_matter   — title page, legal notice, contents, glossary, preface, foreword, distribution list, page furniture.
+  appendix       — appendices, annexes, references, abbreviations, index of figures or cited complaint numbers.
+
+Rules:
+- A block that mixes observed fact with reasoning is `mixed`, not `analysis`. Only a block that is essentially pure argument is `analysis`.
+- When in doubt between `factual` and `mixed`, choose `mixed`: the sentences that give the answer away are removed later, one by one.
+- A summary that says what happened AND why is `conclusion`.
+- A chronology of what the investigation did and received, with no assessment, is `factual`.
+
+Return JSON only:
+{"blocks": [{"index": <int, exactly as given>, "role": "<one of the six>"}]}
+Every index below must appear exactly once.
+
+Record: {record_kind}
+
+BLOCKS:
+{blocks}
